@@ -1,0 +1,13 @@
+﻿# NetTroubleshooter generated logs
+Logs/
+*.log
+*.jsonl
+
+# PowerShell temporary/cache files
+*.tmp
+*.bak
+
+# Editor/system files
+.vscode/
+.DS_Store
+Thumbs.db
