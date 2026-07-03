@@ -110,3 +110,25 @@ NetTroubleshooter/
 - LLM-assisted reasoning
 - GUI dashboard
 - Remediation and rollback workflows
+
+## Log viewer
+
+You can view the latest diagnostic log in a readable format with:
+
+```powershell
+Show-AgentLog
+```
+
+Show fewer entries:
+
+```powershell
+Show-AgentLog -Tail 5
+```
+
+Show more entries:
+
+```powershell
+Show-AgentLog -Tail 50
+```
+
+This reads the latest `.jsonl` file from the `Logs/` folder and prints a human-friendly summary of recent diagnostic events.

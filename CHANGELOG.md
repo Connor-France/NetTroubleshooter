@@ -58,3 +58,16 @@ The format is based on simple version sections so progress is easy to track.
 - Rollback workflows.
 - Background monitoring.
 - System tray mode.
+
+## [0.2.0] - Log viewer
+
+### Added
+
+- Added `Show-AgentLog` command.
+- Added readable summaries for recent JSONL diagnostic log events.
+- Added support for `-Tail` to control how many log entries are displayed.
+
+### Notes
+
+- This is the first v0.2.0 feature.
+- Log files remain local and are still excluded from Git.
