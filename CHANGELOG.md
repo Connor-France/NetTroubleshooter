@@ -137,3 +137,18 @@ The format is based on simple version sections so progress is easy to track.
 
 - The matcher test suite now covers Wi-Fi, DNS, LAN, VPN, and firewall scenarios.
 - The suite currently contains 11 matcher tests.
+
+## [0.3.3] - Wi-Fi channel diagnostics
+
+### Added
+
+- Added Wi-Fi nearby network/channel collection via `netsh wlan show networks mode=bssid`.
+- Added `WifiNetworks` data to the Wi-Fi collector.
+- Added `Wi-Fi channel congestion` pattern to the Wi-Fi knowledge base.
+- Added matcher logic for crowded Wi-Fi channels.
+- Added Pester tests for Wi-Fi channel diagnostics.
+
+### Notes
+
+- Channel congestion detection currently flags possible congestion when three or more nearby BSSIDs are detected on the same channel.
+- Checks remain read-only and non-destructive.
