@@ -132,3 +132,31 @@ Show-AgentLog -Tail 50
 ```
 
 This reads the latest `.jsonl` file from the `Logs/` folder and prints a human-friendly summary of recent diagnostic events.
+
+## Report export
+
+You can export the latest diagnostic log to a Markdown report with:
+
+```powershell
+Export-AgentReport
+```
+
+Export fewer log entries:
+
+```powershell
+Export-AgentReport -Tail 10
+```
+
+Export more log entries:
+
+```powershell
+Export-AgentReport -Tail 100
+```
+
+Reports are written to:
+
+```text
+Reports/
+```
+
+The `Reports/` folder is ignored by Git so generated diagnostic reports are not committed.

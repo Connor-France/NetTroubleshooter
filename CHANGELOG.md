@@ -71,3 +71,20 @@ The format is based on simple version sections so progress is easy to track.
 
 - This is the first v0.2.0 feature.
 - Log files remain local and are still excluded from Git.
+
+## [0.2.1] - Report export
+
+### Added
+
+- Added `Export-AgentReport` command.
+- Added Markdown report generation from the latest diagnostic log.
+- Added `Reports/` output folder for generated reports.
+- Added support for `-Tail` to control how many log entries are included in a report.
+
+### Changed
+
+- Updated `.gitignore` to exclude generated reports.
+
+### Notes
+
+- Generated reports remain local and are not committed to Git.
