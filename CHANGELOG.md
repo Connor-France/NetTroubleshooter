@@ -109,3 +109,17 @@ The format is based on simple version sections so progress is easy to track.
 - Knowledge matching is currently local and rule-based.
 - No LLM is required for this milestone.
 - The agent remains read-only and approval-based.
+
+## [0.3.1] - Test suite foundation
+
+### Added
+
+- Added initial Pester test suite.
+- Added tests for Wi-Fi knowledge matching.
+- Added test coverage for strong Wi-Fi signals not being incorrectly flagged as weak.
+- Added test coverage for weak Wi-Fi signals being matched correctly.
+
+### Notes
+
+- Pester 5.8.0 is used for the current test workflow.
+- Tests can be run with `Invoke-Pester`.

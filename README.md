@@ -201,3 +201,47 @@ Find-AgentKnowledgeMatch -Scenario wifi -InputData $data
 ```
 
 During diagnostic runs, `Invoke-Agent` checks for knowledge base matches and displays matching patterns before suggesting the next diagnostic command.
+
+## Testing
+
+NetTroubleshooter uses Pester for PowerShell tests.
+
+Load Pester 5.8.0:
+
+```powershell
+Remove-Module Pester -ErrorAction SilentlyContinue
+Import-Module Pester -RequiredVersion 5.8.0 -Force
+```
+
+Run the current test suite:
+
+```powershell
+Invoke-Pester -Path .\Tests\Find-AgentKnowledgeMatch.Tests.ps1 -Output Detailed
+```
+
+The current tests validate Wi-Fi knowledge matching:
+
+- strong Wi-Fi signal is not incorrectly flagged as weak
+- weak Wi-Fi signal is correctly matched
+
+## Testing
+
+NetTroubleshooter uses Pester for PowerShell tests.
+
+Load Pester 5.8.0:
+
+```powershell
+Remove-Module Pester -ErrorAction SilentlyContinue
+Import-Module Pester -RequiredVersion 5.8.0 -Force
+```
+
+Run the current test suite:
+
+```powershell
+Invoke-Pester -Path .\Tests\Find-AgentKnowledgeMatch.Tests.ps1 -Output Detailed
+```
+
+The current tests validate Wi-Fi knowledge matching:
+
+- strong Wi-Fi signal is not incorrectly flagged as weak
+- weak Wi-Fi signal is correctly matched
