@@ -24,8 +24,10 @@
             $isDisconnected = $wifiText -notmatch 'State\s*:\s*connected'
 
             $signal = $null
-            if ($wifiText -match 'Signal\s*:\s*(\d+)%') {
-                $signal = [int]$knowledgeMatches[1]
+            $signalMatch = [regex]::Match($wifiText, 'Signal\s*:\s*(\d+)%')
+
+            if ($signalMatch.Success) {
+                $signal = [int]$signalMatch.Groups[1].Value
             }
 
             if ($signal -ne $null -and $signal -lt 40) {

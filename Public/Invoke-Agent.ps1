@@ -33,6 +33,33 @@
         Write-Host ""
         Write-Host "Diagnostic step $step of $MaxSteps" -ForegroundColor Cyan
 
+        $knowledgeMatches = Find-AgentKnowledgeMatch -Scenario $Scenario -InputData $currentData
+
+        if ($knowledgeMatches) {
+            Write-Host ""
+            Write-Host "Knowledge matches:" -ForegroundColor Magenta
+
+            foreach ($match in $knowledgeMatches) {
+                Write-Host " - $($match.PatternName)" -ForegroundColor Magenta
+                Write-Host "   Confidence: $($match.Confidence)"
+                Write-Host "   Evidence   : $($match.Evidence)"
+            }
+
+            Write-AgentLog `
+                -Scenario $Scenario `
+                -EventType 'KnowledgeMatchFound' `
+                -StepNumber $step `
+                -Message 'One or more knowledge base patterns matched.' `
+                -Output $knowledgeMatches | Out-Null
+        }
+        else {
+            Write-AgentLog `
+                -Scenario $Scenario `
+                -EventType 'NoKnowledgeMatch' `
+                -StepNumber $step `
+                -Message 'No knowledge base patterns matched.' | Out-Null
+        }
+
         $suggestion = Invoke-AgentStep -InputData $currentData
 
         if (-not $suggestion) {
