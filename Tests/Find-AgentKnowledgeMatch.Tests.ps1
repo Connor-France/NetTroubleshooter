@@ -130,3 +130,85 @@ Describe "Find-AgentKnowledgeMatch - LAN" {
         $result.PatternName | Should -Contain "Missing default route"
     }
 }
+
+Describe "Find-AgentKnowledgeMatch - VPN" {
+    It "does not flag VPN disconnected when VPN is connected" {
+        $fakeVpnData = [pscustomobject]@{
+            Type = "vpn"
+            VpnConnections = @(
+                [pscustomobject]@{
+                    ConnectionStatus = "Connected"
+                }
+            )
+            Adapters = @(
+                [pscustomobject]@{
+                    InterfaceDescription = "Test VPN Adapter"
+                }
+            )
+            Routes = @()
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario vpn -InputData $fakeVpnData
+
+        $result.PatternName | Should -Not -Contain "VPN disconnected"
+    }
+
+    It "flags VPN disconnected when VPN exists but is not connected" {
+        $fakeVpnData = [pscustomobject]@{
+            Type = "vpn"
+            VpnConnections = @(
+                [pscustomobject]@{
+                    ConnectionStatus = "Disconnected"
+                }
+            )
+            Adapters = @(
+                [pscustomobject]@{
+                    InterfaceDescription = "Test VPN Adapter"
+                }
+            )
+            Routes = @()
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario vpn -InputData $fakeVpnData
+
+        $result.PatternName | Should -Contain "VPN disconnected"
+    }
+}
+
+Describe "Find-AgentKnowledgeMatch - Firewall" {
+    It "does not flag outbound firewall block when no outbound block rules exist" {
+        $fakeFirewallData = [pscustomobject]@{
+            Type = "firewall"
+            Profiles = @()
+            Rules = @(
+                [pscustomobject]@{
+                    Direction = "Outbound"
+                    Action    = "Allow"
+                    Enabled   = $true
+                }
+            )
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario firewall -InputData $fakeFirewallData
+
+        $result.PatternName | Should -Not -Contain "Outbound firewall block"
+    }
+
+    It "flags outbound firewall block when enabled outbound block rule exists" {
+        $fakeFirewallData = [pscustomobject]@{
+            Type = "firewall"
+            Profiles = @()
+            Rules = @(
+                [pscustomobject]@{
+                    Direction = "Outbound"
+                    Action    = "Block"
+                    Enabled   = $true
+                }
+            )
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario firewall -InputData $fakeFirewallData
+
+        $result.PatternName | Should -Contain "Outbound firewall block"
+    }
+}
