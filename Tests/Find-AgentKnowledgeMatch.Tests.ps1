@@ -324,3 +324,32 @@ Describe "Find-AgentKnowledgeMatch - MTU/MSS diagnostics" {
         $result.PatternName | Should -Not -Contain "Suspected MTU/MSS path issue"
     }
 }
+
+Describe "Find-AgentKnowledgeMatch - Evidence details" {
+    It "includes structured evidence details for suspected MTU/MSS issues" {
+        $fakeLanData = [pscustomobject]@{
+            Type = "lan"
+            IP = @(
+                [pscustomobject]@{
+                    IPv4Address = [pscustomobject]@{
+                        IPAddress = "192.168.1.100"
+                    }
+                }
+            )
+            Routes = @(
+                [pscustomobject]@{
+                    DestinationPrefix = "0.0.0.0/0"
+                }
+            )
+            MtuLargePingSucceeded = $false
+            MtuSmallPingSucceeded = $true
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario lan -InputData $fakeLanData |
+            Where-Object { $_.PatternName -eq "Suspected MTU/MSS path issue" }
+
+        $result.EvidenceDetails.LargePingSucceeded | Should -BeFalse
+        $result.EvidenceDetails.SmallPingSucceeded | Should -BeTrue
+        $result.EvidenceDetails.Interpretation | Should -Be "Possible path MTU, MSS, fragmentation, or PMTUD issue."
+    }
+}

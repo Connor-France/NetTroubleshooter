@@ -167,12 +167,17 @@
 
                 if ($pattern) {
                     $knowledgeMatches.Add([pscustomobject]@{
-                        Scenario    = $Scenario
-                        PatternName = $pattern.name
-                        Description = $pattern.description
-                        Risk        = $pattern.risk
-                        Confidence  = 'medium'
-                        Evidence    = 'Large DF ping failed while smaller DF ping succeeded.'
+                        Scenario        = $Scenario
+                        PatternName     = $pattern.name
+                        Description     = $pattern.description
+                        Risk            = $pattern.risk
+                        Confidence      = 'medium'
+                        Evidence        = 'Large DF ping failed while smaller DF ping succeeded.'
+                        EvidenceDetails = [pscustomobject]@{
+                            LargePingSucceeded = $InputData.MtuLargePingSucceeded
+                            SmallPingSucceeded = $InputData.MtuSmallPingSucceeded
+                            Interpretation     = 'Possible path MTU, MSS, fragmentation, or PMTUD issue.'
+                        }
                     }) | Out-Null
                 }
             }
@@ -225,3 +230,4 @@
 
     return $knowledgeMatches
 }
+
