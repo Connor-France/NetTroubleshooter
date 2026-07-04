@@ -1,0 +1,34 @@
+﻿{
+  "scenario": "wifi",
+  "patterns": [
+    {
+      "name": "Weak Wi-Fi signal",
+      "description": "Wi-Fi signal appears weak and may cause latency, packet loss, or disconnects.",
+      "signals": [
+        "signal below 40 percent",
+        "high average ping",
+        "intermittent connectivity"
+      ],
+      "suggestedChecks": [
+        "netsh wlan show interfaces",
+        "netsh wlan show networks mode=bssid",
+        "Test-Connection 8.8.8.8 -Count 20"
+      ],
+      "risk": "low"
+    },
+    {
+      "name": "Wi-Fi disconnected",
+      "description": "Wireless adapter is not connected to an access point.",
+      "signals": [
+        "state not connected",
+        "no SSID",
+        "no wireless link"
+      ],
+      "suggestedChecks": [
+        "netsh wlan show interfaces",
+        "Get-NetAdapter"
+      ],
+      "risk": "low"
+    }
+  ]
+}

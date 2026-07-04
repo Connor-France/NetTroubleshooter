@@ -1,0 +1,19 @@
+﻿{
+  "scenario": "firewall",
+  "patterns": [
+    {
+      "name": "Outbound firewall block",
+      "description": "One or more enabled outbound block rules may interfere with connectivity.",
+      "signals": [
+        "enabled outbound block rule",
+        "firewall rule action block",
+        "outbound traffic blocked"
+      ],
+      "suggestedChecks": [
+        "Get-NetFirewallProfile",
+        "Get-NetFirewallRule"
+      ],
+      "risk": "low"
+    }
+  ]
+}

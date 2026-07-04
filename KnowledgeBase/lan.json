@@ -1,0 +1,33 @@
+﻿{
+  "scenario": "lan",
+  "patterns": [
+    {
+      "name": "Missing IPv4 address",
+      "description": "The network adapter does not appear to have a usable IPv4 address.",
+      "signals": [
+        "no IPv4 address",
+        "DHCP lease missing",
+        "adapter has no IP"
+      ],
+      "suggestedChecks": [
+        "ipconfig /all",
+        "Get-NetIPConfiguration"
+      ],
+      "risk": "low"
+    },
+    {
+      "name": "Missing default route",
+      "description": "No default route was detected, which can prevent internet connectivity.",
+      "signals": [
+        "no 0.0.0.0/0 route",
+        "missing gateway",
+        "no default gateway"
+      ],
+      "suggestedChecks": [
+        "Get-NetRoute",
+        "Get-NetIPConfiguration"
+      ],
+      "risk": "low"
+    }
+  ]
+}

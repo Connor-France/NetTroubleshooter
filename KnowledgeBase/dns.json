@@ -1,0 +1,20 @@
+﻿{
+  "scenario": "dns",
+  "patterns": [
+    {
+      "name": "Default DNS lookup failure",
+      "description": "The default DNS resolver failed to resolve a known domain.",
+      "signals": [
+        "Resolve-DnsName returned no result",
+        "DNS timeout",
+        "name resolution failure"
+      ],
+      "suggestedChecks": [
+        "Resolve-DnsName google.com",
+        "Resolve-DnsName google.com -Server 8.8.8.8",
+        "Get-DnsClientServerAddress"
+      ],
+      "risk": "low"
+    }
+  ]
+}

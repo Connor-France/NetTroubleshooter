@@ -1,0 +1,20 @@
+﻿{
+  "scenario": "vpn",
+  "patterns": [
+    {
+      "name": "VPN disconnected",
+      "description": "A VPN connection or adapter exists, but no VPN connection appears active.",
+      "signals": [
+        "VPN connection not connected",
+        "VPN adapter present",
+        "ConnectionStatus not Connected"
+      ],
+      "suggestedChecks": [
+        "Get-VpnConnection",
+        "Get-NetAdapter",
+        "Get-NetRoute"
+      ],
+      "risk": "low"
+    }
+  ]
+}
