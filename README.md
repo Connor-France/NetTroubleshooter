@@ -213,35 +213,20 @@ Remove-Module Pester -ErrorAction SilentlyContinue
 Import-Module Pester -RequiredVersion 5.8.0 -Force
 ```
 
-Run the current test suite:
+Run the full matcher test suite:
 
 ```powershell
 Invoke-Pester -Path .\Tests\Find-AgentKnowledgeMatch.Tests.ps1 -Output Detailed
 ```
 
-The current tests validate Wi-Fi knowledge matching:
+## Test coverage
 
-- strong Wi-Fi signal is not incorrectly flagged as weak
-- weak Wi-Fi signal is correctly matched
+The matcher test suite currently covers all active diagnostic scenarios:
 
-## Testing
-
-NetTroubleshooter uses Pester for PowerShell tests.
-
-Load Pester 5.8.0:
-
-```powershell
-Remove-Module Pester -ErrorAction SilentlyContinue
-Import-Module Pester -RequiredVersion 5.8.0 -Force
+```text
+Wi-Fi      - strong signal and weak signal matching
+DNS        - healthy DNS data and missing DNS data
+LAN        - healthy LAN data, missing IPv4, and missing default route
+VPN        - connected VPN and disconnected VPN
+Firewall   - allowed outbound rules and outbound block rules
 ```
-
-Run the current test suite:
-
-```powershell
-Invoke-Pester -Path .\Tests\Find-AgentKnowledgeMatch.Tests.ps1 -Output Detailed
-```
-
-The current tests validate Wi-Fi knowledge matching:
-
-- strong Wi-Fi signal is not incorrectly flagged as weak
-- weak Wi-Fi signal is correctly matched

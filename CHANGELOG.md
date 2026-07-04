@@ -123,3 +123,17 @@ The format is based on simple version sections so progress is easy to track.
 
 - Pester 5.8.0 is used for the current test workflow.
 - Tests can be run with `Invoke-Pester`.
+
+## [0.3.2] - Expanded matcher test coverage
+
+### Added
+
+- Added LAN matcher tests.
+- Added VPN matcher tests.
+- Added firewall matcher tests.
+- Expanded matcher test coverage across all active diagnostic scenarios.
+
+### Notes
+
+- The matcher test suite now covers Wi-Fi, DNS, LAN, VPN, and firewall scenarios.
+- The suite currently contains 11 matcher tests.
