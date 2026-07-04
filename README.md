@@ -160,3 +160,44 @@ Reports/
 ```
 
 The `Reports/` folder is ignored by Git so generated diagnostic reports are not committed.
+
+## Knowledge base
+
+NetTroubleshooter includes a local JSON knowledge base for known network issue patterns.
+
+Knowledge base files are stored in:
+
+```text
+KnowledgeBase/
+```
+
+Current scenario knowledge files:
+
+```text
+wifi.json
+dns.json
+lan.json
+vpn.json
+firewall.json
+```
+
+View all knowledge base entries:
+
+```powershell
+Get-AgentKnowledge
+```
+
+View knowledge for a specific scenario:
+
+```powershell
+Get-AgentKnowledge -Scenario wifi
+```
+
+Find matching known patterns from collected diagnostic data:
+
+```powershell
+$data = Get-NetworkInfo -Scenario wifi
+Find-AgentKnowledgeMatch -Scenario wifi -InputData $data
+```
+
+During diagnostic runs, `Invoke-Agent` checks for knowledge base matches and displays matching patterns before suggesting the next diagnostic command.

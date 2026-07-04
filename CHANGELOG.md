@@ -88,3 +88,24 @@ The format is based on simple version sections so progress is easy to track.
 ### Notes
 
 - Generated reports remain local and are not committed to Git.
+
+## [0.3.0] - Knowledge base and pattern matching
+
+### Added
+
+- Added `KnowledgeBase/` folder.
+- Added JSON knowledge files for Wi-Fi, DNS, LAN, VPN, and firewall scenarios.
+- Added `Get-AgentKnowledge` command.
+- Added `Find-AgentKnowledgeMatch` command.
+- Added knowledge base matching into `Invoke-Agent`.
+- Added logging for knowledge match and no-match events.
+
+### Fixed
+
+- Fixed Wi-Fi signal parsing bug caused by PowerShell regex match variable behaviour.
+
+### Notes
+
+- Knowledge matching is currently local and rule-based.
+- No LLM is required for this milestone.
+- The agent remains read-only and approval-based.
