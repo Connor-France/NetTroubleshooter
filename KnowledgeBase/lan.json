@@ -28,6 +28,21 @@
         "Get-NetIPConfiguration"
       ],
       "risk": "low"
+    },
+    {
+      "name": "Suspected MTU/MSS path issue",
+      "description": "Large packets may fail while smaller packets succeed, which can indicate MTU, MSS, fragmentation, or path MTU discovery problems.",
+      "signals": [
+        "large DF ping fails",
+        "smaller DF ping succeeds",
+        "packet needs fragmentation",
+        "possible MTU black hole"
+      ],
+      "suggestedChecks": [
+        "ping.exe 8.8.8.8 -f -l 1472 -n 2",
+        "ping.exe 8.8.8.8 -f -l 1400 -n 2"
+      ],
+      "risk": "low"
     }
   ]
 }

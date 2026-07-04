@@ -274,3 +274,53 @@ SSID 3 : NetworkC
         $result.PatternName | Should -Contain "Wi-Fi channel congestion"
     }
 }
+
+Describe "Find-AgentKnowledgeMatch - MTU/MSS diagnostics" {
+    It "flags suspected MTU/MSS issue when large DF ping fails and smaller DF ping succeeds" {
+        $fakeLanData = [pscustomobject]@{
+            Type = "lan"
+            IP = @(
+                [pscustomobject]@{
+                    IPv4Address = [pscustomobject]@{
+                        IPAddress = "192.168.1.100"
+                    }
+                }
+            )
+            Routes = @(
+                [pscustomobject]@{
+                    DestinationPrefix = "0.0.0.0/0"
+                }
+            )
+            MtuLargePingSucceeded = $false
+            MtuSmallPingSucceeded = $true
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario lan -InputData $fakeLanData
+
+        $result.PatternName | Should -Contain "Suspected MTU/MSS path issue"
+    }
+
+    It "does not flag MTU/MSS issue when large and smaller DF pings both succeed" {
+        $fakeLanData = [pscustomobject]@{
+            Type = "lan"
+            IP = @(
+                [pscustomobject]@{
+                    IPv4Address = [pscustomobject]@{
+                        IPAddress = "192.168.1.100"
+                    }
+                }
+            )
+            Routes = @(
+                [pscustomobject]@{
+                    DestinationPrefix = "0.0.0.0/0"
+                }
+            )
+            MtuLargePingSucceeded = $true
+            MtuSmallPingSucceeded = $true
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario lan -InputData $fakeLanData
+
+        $result.PatternName | Should -Not -Contain "Suspected MTU/MSS path issue"
+    }
+}

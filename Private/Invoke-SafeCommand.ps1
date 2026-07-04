@@ -63,6 +63,14 @@
             Get-NetFirewallProfile
         }
 
+        'PingMtu1472Google' {
+            ping.exe 8.8.8.8 -f -l 1472 -n 2
+        }
+
+        'PingMtu1400Google' {
+            ping.exe 8.8.8.8 -f -l 1400 -n 2
+        }
+
         default {
             throw "CommandKey '$CommandKey' is not approved for safe execution."
         }

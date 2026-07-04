@@ -156,6 +156,26 @@
                     }) | Out-Null
                 }
             }
+
+            if (
+                $InputData.PSObject.Properties.Name -contains 'MtuLargePingSucceeded' -and
+                $InputData.PSObject.Properties.Name -contains 'MtuSmallPingSucceeded' -and
+                $InputData.MtuLargePingSucceeded -eq $false -and
+                $InputData.MtuSmallPingSucceeded -eq $true
+            ) {
+                $pattern = $knowledge.patterns | Where-Object { $_.name -eq 'Suspected MTU/MSS path issue' }
+
+                if ($pattern) {
+                    $knowledgeMatches.Add([pscustomobject]@{
+                        Scenario    = $Scenario
+                        PatternName = $pattern.name
+                        Description = $pattern.description
+                        Risk        = $pattern.risk
+                        Confidence  = 'medium'
+                        Evidence    = 'Large DF ping failed while smaller DF ping succeeded.'
+                    }) | Out-Null
+                }
+            }
         }
 
         'vpn' {
