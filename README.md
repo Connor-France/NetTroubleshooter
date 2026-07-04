@@ -229,4 +229,6 @@ DNS        - healthy DNS data and missing DNS data
 LAN        - healthy LAN data, missing IPv4, and missing default route
 VPN        - connected VPN and disconnected VPN
 Firewall   - allowed outbound rules and outbound block rules
+MTU/MSS    - suspected path MTU issue and healthy MTU path
 ```
+

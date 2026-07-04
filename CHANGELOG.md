@@ -152,3 +152,20 @@ The format is based on simple version sections so progress is easy to track.
 
 - Channel congestion detection currently flags possible congestion when three or more nearby BSSIDs are detected on the same channel.
 - Checks remain read-only and non-destructive.
+
+## [0.3.4] - MTU/MSS diagnostics
+
+### Added
+
+- Added safe MTU diagnostic command keys:
+  - `PingMtu1472Google`
+  - `PingMtu1400Google`
+- Added `Suspected MTU/MSS path issue` to the LAN knowledge base.
+- Added matcher logic for suspected MTU/MSS path issues.
+- Added Pester tests for suspected and healthy MTU/MSS paths.
+
+### Notes
+
+- MTU/MSS detection currently uses the pattern: large DF ping fails while smaller DF ping succeeds.
+- Checks remain read-only and non-destructive.
+- The matcher test suite now contains 15 tests.
