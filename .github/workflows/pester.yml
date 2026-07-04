@@ -1,0 +1,29 @@
+﻿name: Pester Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pester:
+    name: Run Pester tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Pester 5.8.0
+        shell: pwsh
+        run: |
+          Install-Module -Name Pester -RequiredVersion 5.8.0 -Scope CurrentUser -Force -SkipPublisherCheck
+
+      - name: Run matcher tests
+        shell: pwsh
+        run: |
+          Import-Module Pester -RequiredVersion 5.8.0 -Force
+          Invoke-Pester -Path .\Tests\Find-AgentKnowledgeMatch.Tests.ps1 -Output Detailed
