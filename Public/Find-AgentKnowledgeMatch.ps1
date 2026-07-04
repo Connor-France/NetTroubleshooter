@@ -59,6 +59,48 @@
                     }) | Out-Null
                 }
             }
+
+            if ($InputData.PSObject.Properties.Name -contains 'WifiNetworks') {
+                $networkText = ($InputData.WifiNetworks | Out-String)
+                $channelMatches = [regex]::Matches($networkText, 'Channel\s*:\s*(\d+)')
+
+                if ($channelMatches.Count -gt 0) {
+                    $channelCounts = @{}
+
+                    foreach ($channelMatch in $channelMatches) {
+                        $channel = $channelMatch.Groups[1].Value
+
+                        if (-not $channelCounts.ContainsKey($channel)) {
+                            $channelCounts[$channel] = 0
+                        }
+
+                        $channelCounts[$channel]++
+                    }
+
+                    $crowdedChannels = $channelCounts.GetEnumerator() |
+                        Where-Object { $_.Value -ge 3 } |
+                        Sort-Object Value -Descending
+
+                    if ($crowdedChannels) {
+                        $pattern = $knowledge.patterns | Where-Object { $_.name -eq 'Wi-Fi channel congestion' }
+
+                        if ($pattern) {
+                            $channelSummary = ($crowdedChannels | ForEach-Object {
+                                "Channel $($_.Key): $($_.Value) nearby BSSIDs"
+                            }) -join '; '
+
+                            $knowledgeMatches.Add([pscustomobject]@{
+                                Scenario    = $Scenario
+                                PatternName = $pattern.name
+                                Description = $pattern.description
+                                Risk        = $pattern.risk
+                                Confidence  = 'medium'
+                                Evidence    = "Detected crowded Wi-Fi channel usage. $channelSummary"
+                            }) | Out-Null
+                        }
+                    }
+                }
+            }
         }
 
         'dns' {

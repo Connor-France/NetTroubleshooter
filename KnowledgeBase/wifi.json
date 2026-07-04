@@ -29,6 +29,19 @@
         "Get-NetAdapter"
       ],
       "risk": "low"
+    },
+    {
+      "name": "Wi-Fi channel congestion",
+      "description": "Multiple nearby access points appear to be using the same or overlapping Wi-Fi channels.",
+      "signals": [
+        "multiple BSSIDs on same channel",
+        "channel overlap",
+        "crowded nearby networks"
+      ],
+      "suggestedChecks": [
+        "netsh wlan show networks mode=bssid"
+      ],
+      "risk": "low"
     }
   ]
 }

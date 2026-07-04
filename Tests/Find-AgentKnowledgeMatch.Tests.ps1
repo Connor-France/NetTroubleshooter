@@ -212,3 +212,65 @@ Describe "Find-AgentKnowledgeMatch - Firewall" {
         $result.PatternName | Should -Contain "Outbound firewall block"
     }
 }
+
+Describe "Find-AgentKnowledgeMatch - Wi-Fi channel diagnostics" {
+    It "does not flag channel congestion when channels are spread out" {
+        $fakeWifiData = [pscustomobject]@{
+            Type = "wifi"
+            Wifi = @"
+State                  : connected
+SSID                   : TestNetwork
+Signal                 : 87%
+"@
+            WifiNetworks = @"
+SSID 1 : NetworkA
+    BSSID 1                 : aa:aa:aa:aa:aa:01
+         Signal             : 80%
+         Channel            : 1
+SSID 2 : NetworkB
+    BSSID 1                 : bb:bb:bb:bb:bb:01
+         Signal             : 75%
+         Channel            : 6
+SSID 3 : NetworkC
+    BSSID 1                 : cc:cc:cc:cc:cc:01
+         Signal             : 70%
+         Channel            : 11
+"@
+            Ping = @()
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario wifi -InputData $fakeWifiData
+
+        $result.PatternName | Should -Not -Contain "Wi-Fi channel congestion"
+    }
+
+    It "flags channel congestion when three BSSIDs share a channel" {
+        $fakeWifiData = [pscustomobject]@{
+            Type = "wifi"
+            Wifi = @"
+State                  : connected
+SSID                   : TestNetwork
+Signal                 : 87%
+"@
+            WifiNetworks = @"
+SSID 1 : NetworkA
+    BSSID 1                 : aa:aa:aa:aa:aa:01
+         Signal             : 80%
+         Channel            : 6
+SSID 2 : NetworkB
+    BSSID 1                 : bb:bb:bb:bb:bb:01
+         Signal             : 75%
+         Channel            : 6
+SSID 3 : NetworkC
+    BSSID 1                 : cc:cc:cc:cc:cc:01
+         Signal             : 70%
+         Channel            : 6
+"@
+            Ping = @()
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario wifi -InputData $fakeWifiData
+
+        $result.PatternName | Should -Contain "Wi-Fi channel congestion"
+    }
+}

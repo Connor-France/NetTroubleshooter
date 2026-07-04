@@ -9,12 +9,14 @@
     switch ($Scenario) {
         'wifi' {
             $wifi = netsh wlan show interfaces 2>$null
+            $wifiNetworks = netsh wlan show networks mode=bssid 2>$null
             $ping = Test-Connection -ComputerName 8.8.8.8 -Count 4 -ErrorAction SilentlyContinue
 
             [pscustomobject]@{
-                Type = 'wifi'
-                Wifi = $wifi
-                Ping = $ping
+                Type         = 'wifi'
+                Wifi         = $wifi
+                WifiNetworks = $wifiNetworks
+                Ping         = $ping
             }
         }
 
