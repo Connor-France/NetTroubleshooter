@@ -98,3 +98,26 @@ Planned:
 - GitHub issue templates
 - Pester test suite
 - Module installer script
+
+### MTU/MSS diagnostics
+
+Planned:
+
+- Add MTU black-hole detection patterns.
+- Add ping payload size checks.
+- Add MSS/fragmentation knowledge base entries.
+- Add tests for healthy MTU path detection.
+- Add tests for suspected MTU/MSS mismatch.
+- Add safe command allowlist entries for non-destructive MTU checks.
+
+### Wi-Fi channel diagnostics
+
+Planned:
+
+- Add nearby access point/channel scan using `netsh wlan show networks mode=bssid`.
+- Detect crowded or overlapping Wi-Fi channels.
+- Add knowledge base patterns for channel congestion.
+- Add tests for healthy Wi-Fi channel conditions.
+- Add tests for suspected channel overlap or congestion.
+- Keep checks read-only
+.

@@ -67,3 +67,66 @@ Describe "Find-AgentKnowledgeMatch - DNS" {
         $result.PatternName | Should -Contain "Default DNS lookup failure"
     }
 }
+
+Describe "Find-AgentKnowledgeMatch - LAN" {
+    It "does not flag healthy LAN data" {
+        $fakeLanData = [pscustomobject]@{
+            Type = "lan"
+            IP = @(
+                [pscustomobject]@{
+                    IPv4Address = [pscustomobject]@{
+                        IPAddress = "192.168.1.100"
+                    }
+                }
+            )
+            Routes = @(
+                [pscustomobject]@{
+                    DestinationPrefix = "0.0.0.0/0"
+                }
+            )
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario lan -InputData $fakeLanData
+
+        $result.PatternName | Should -Not -Contain "Missing IPv4 address"
+        $result.PatternName | Should -Not -Contain "Missing default route"
+    }
+
+    It "flags missing IPv4 address" {
+        $fakeLanData = [pscustomobject]@{
+            Type = "lan"
+            IP = @(
+                [pscustomobject]@{
+                    IPv4Address = $null
+                }
+            )
+            Routes = @(
+                [pscustomobject]@{
+                    DestinationPrefix = "0.0.0.0/0"
+                }
+            )
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario lan -InputData $fakeLanData
+
+        $result.PatternName | Should -Contain "Missing IPv4 address"
+    }
+
+    It "flags missing default route" {
+        $fakeLanData = [pscustomobject]@{
+            Type = "lan"
+            IP = @(
+                [pscustomobject]@{
+                    IPv4Address = [pscustomobject]@{
+                        IPAddress = "192.168.1.100"
+                    }
+                }
+            )
+            Routes = @()
+        }
+
+        $result = Find-AgentKnowledgeMatch -Scenario lan -InputData $fakeLanData
+
+        $result.PatternName | Should -Contain "Missing default route"
+    }
+}
